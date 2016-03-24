@@ -11,5 +11,6 @@
     <string name="input_prefill"></string>
     <string name="widget_title">Today\'s Market</string>
     <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-    <string name="invalid_toast">Sorry, no valid information received!</string>
+    <string name="valid_toast">" added!"</string>
+    <string name="invalid_toast">" is not a valid stock!"</string>
 </resources>
