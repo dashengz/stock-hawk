@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
@@ -60,13 +61,14 @@ public class StockTaskService extends GcmTaskService {
         StringBuilder urlStringBuilder = new StringBuilder();
         try {
             // Base URL for the Yahoo query
-            urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
-            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
-                    + "in (", "UTF-8"));
+            urlStringBuilder.append(mContext.getResources().getString(R.string.service_url_base));
+            urlStringBuilder.append(URLEncoder.encode(mContext.getResources().getString(R.string.service_url_select),
+                    mContext.getResources().getString(R.string.service_url_encode)));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        if (params.getTag().equals("init") || params.getTag().equals("periodic")) {
+        if (params.getTag().equals(mContext.getResources().getString(R.string.value_init))
+                || params.getTag().equals(mContext.getResources().getString(R.string.tag_periodic))) {
             isUpdate = true;
             initQueryCursor = mContext.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                     new String[]{"Distinct " + QuoteColumns.SYMBOL}, null,
@@ -75,7 +77,8 @@ public class StockTaskService extends GcmTaskService {
                 // Init task. Populates DB with quotes for the symbols seen below
                 try {
                     urlStringBuilder.append(
-                            URLEncoder.encode("\"YHOO\",\"AAPL\",\"GOOG\",\"MSFT\")", "UTF-8"));
+                            URLEncoder.encode(mContext.getResources().getString(R.string.service_url_init_symbols),
+                                    mContext.getResources().getString(R.string.service_url_encode)));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -84,29 +87,30 @@ public class StockTaskService extends GcmTaskService {
                 initQueryCursor.moveToFirst();
                 for (int i = 0; i < initQueryCursor.getCount(); i++) {
                     mStoredSymbols.append("\"" +
-                            initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")) + "\",");
+                            initQueryCursor.getString(initQueryCursor.getColumnIndex(QuoteColumns.SYMBOL)) + "\",");
                     initQueryCursor.moveToNext();
                 }
                 mStoredSymbols.replace(mStoredSymbols.length() - 1, mStoredSymbols.length(), ")");
                 try {
-                    urlStringBuilder.append(URLEncoder.encode(mStoredSymbols.toString(), "UTF-8"));
+                    urlStringBuilder.append(URLEncoder.encode(mStoredSymbols.toString(),
+                            mContext.getResources().getString(R.string.service_url_encode)));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
-        } else if (params.getTag().equals("add")) {
+        } else if (params.getTag().equals(mContext.getResources().getString(R.string.value_add))) {
             isUpdate = false;
             // get symbol from params.getExtra and build query
-            String stockInput = params.getExtras().getString("symbol");
+            String stockInput = params.getExtras().getString(mContext.getResources().getString(R.string.key_symbol));
             try {
-                urlStringBuilder.append(URLEncoder.encode("\"" + stockInput + "\")", "UTF-8"));
+                urlStringBuilder.append(URLEncoder.encode("\"" + stockInput + "\")",
+                        mContext.getResources().getString(R.string.service_url_encode)));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
         // finalize the URL for the API query.
-        urlStringBuilder.append("&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables."
-                + "org%2Falltableswithkeys&callback=");
+        urlStringBuilder.append(mContext.getResources().getString(R.string.service_url_append));
 
         String urlString;
         String getResponse;

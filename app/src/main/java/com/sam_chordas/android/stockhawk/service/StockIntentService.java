@@ -30,18 +30,21 @@ public class StockIntentService extends IntentService {
         Log.d(StockIntentService.class.getSimpleName(), "Stock Intent Service");
         StockTaskService stockTaskService = new StockTaskService(this);
         Bundle args = new Bundle();
-        if (intent.getStringExtra("tag").equals("add")) {
-            args.putString("symbol", intent.getStringExtra("symbol"));
+        if (intent.getStringExtra(getResources().getString(R.string.key_tag))
+                .equals(getResources().getString(R.string.value_add))) {
+            args.putString(getResources().getString(R.string.key_symbol),
+                    intent.getStringExtra(getResources().getString(R.string.key_symbol)));
         }
 
         // We can call OnRunTask from the intent service to force it to run immediately instead of
         // scheduling a task.
 
         // Show toast msgs to inform users of the possible outcomes
-        if (stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args))
+        if (stockTaskService.onRunTask(new TaskParams(intent.getStringExtra(
+                getResources().getString(R.string.key_tag)), args))
                 == GcmNetworkManager.RESULT_FAILURE) {
             // Not valid stock input
-            final String input = intent.getStringExtra("symbol").toUpperCase();
+            final String input = intent.getStringExtra(getResources().getString(R.string.key_symbol)).toUpperCase();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -52,8 +55,9 @@ public class StockIntentService extends IntentService {
             });
         } else {
             // Valid input
-            if (intent.getStringExtra("tag").equals("add")) {
-                final String input = intent.getStringExtra("symbol").toUpperCase();
+            if (intent.getStringExtra(getResources().getString(R.string.key_tag))
+                    .equals(getResources().getString(R.string.value_add))) {
+                final String input = intent.getStringExtra(getResources().getString(R.string.key_symbol)).toUpperCase();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
