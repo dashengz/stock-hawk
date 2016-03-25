@@ -1,27 +1,38 @@
 <resources>
     <!--App Name-->
     <string name="app_name">Stock Hawk</string>
+
     <!--Menu Item-->
     <string name="action_settings">Settings</string>
     <string name="action_change_units">Change Units</string>
+
     <!--Search Dialog-->
     <string name="symbol_search">Symbol Search</string>
     <string name="content_test">Search for a Stock Symbol</string>
     <string name="input_hint" translatable="false">FB</string>
     <string name="input_prefill" translatable="false">""</string>
     <string name="widget_title">Today\'s Market</string>
+
+    <!--Placeholder-->
+    <string name="placeholder_goog">GOOG</string>
+    <string name="placeholder_value">1000.00</string>
+    <string name="placeholder_percentage">100%</string>
+
     <!--Toasts-->
     <string name="network_toast">Uh-oh! This app requires an internet connection</string>
     <string name="already_saved_toast">This stock is already saved!</string>
     <string name="valid_toast">" added!"</string>
     <string name="invalid_toast">" is not a valid stock!"</string>
+
     <!--Keys-->
     <string name="key_tag" translatable="false">tag</string>
     <string name="key_symbol" translatable="false">symbol</string>
     <string name="tag_periodic" translatable="false">periodic</string>
+
     <!--Values-->
     <string name="value_init" translatable="false">init</string>
     <string name="value_add" translatable="false">add</string>
+
     <!--IntentService-->
     <string name="service_url_encode" translatable="false">UTF-8</string>
     <string name="service_url_base" translatable="false">"https://query.yahooapis.com/v1/public/yql?q="</string>
