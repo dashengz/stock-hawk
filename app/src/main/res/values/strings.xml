@@ -19,7 +19,8 @@
     <string name="placeholder_percentage" translatable="false">100%</string>
 
     <!--Toasts-->
-    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="network_msg">Please connect to the Internet to get the latest stock information!</string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection!</string>
     <string name="already_saved_toast">This stock is already saved!</string>
     <string name="valid_toast">" added!"</string>
     <string name="invalid_toast">" is not a valid stock!"</string>

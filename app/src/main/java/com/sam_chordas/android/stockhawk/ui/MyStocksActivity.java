@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -76,6 +77,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 startService(mServiceIntent);
             } else {
                 networkToast();
+                networkMsg();
             }
         }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -92,7 +94,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     }
                 }));
         recyclerView.setAdapter(mCursorAdapter);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
@@ -132,6 +133,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                             .show();
                 } else {
                     networkToast();
+                    networkMsg();
                 }
 
             }
@@ -172,6 +174,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
     public void networkToast() {
         Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
+    }
+
+    private void networkMsg() {
+        findViewById(R.id.noInternetMsg).setVisibility(View.VISIBLE);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) findViewById(R.id.recycler_view).getLayoutParams();
+        params.addRule(RelativeLayout.BELOW, R.id.noInternetMsg);
     }
 
     public void restoreActionBar() {
