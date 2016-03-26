@@ -59,12 +59,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        checkNetwork();
         setContentView(R.layout.activity_my_stocks);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
@@ -100,7 +95,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkNetwork();
                 if (isConnected) {
+                    findViewById(R.id.noInternetMsg).setVisibility(View.GONE);
                     new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                             .content(R.string.content_test)
                             .inputType(InputType.TYPE_CLASS_TEXT)
@@ -178,8 +175,22 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
     private void networkMsg() {
         findViewById(R.id.noInternetMsg).setVisibility(View.VISIBLE);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) findViewById(R.id.recycler_view).getLayoutParams();
+        View recycler = findViewById(R.id.recycler_view);
+        // refresh recyclerview so that it doesn't overlap with the msg block
+        recycler.setVisibility(View.GONE);
+        recycler.setVisibility(View.VISIBLE);
+        // push recyclerview below the msg block
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) recycler.getLayoutParams();
         params.addRule(RelativeLayout.BELOW, R.id.noInternetMsg);
+    }
+
+    private void checkNetwork() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 
     public void restoreActionBar() {
