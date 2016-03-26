@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.StockDetailActivity">
+
+    <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lineChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/desc_line_chart"
+        chart:chart_axisColor="@android:color/white"
+        chart:chart_fontSize="15dp"
+        chart:chart_labelColor="@android:color/holo_green_light" />
+
+</FrameLayout>
