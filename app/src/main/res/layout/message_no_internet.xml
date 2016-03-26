@@ -11,8 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/desc_no_internet_icon"
         android:padding="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_signal_cellular_connected_no_internet_0_bar_white_24dp" />
+        android:src="@drawable/ic_signal_cellular_connected_no_internet_1_bar_white_24dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -23,5 +24,6 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:text="@string/network_msg"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 </LinearLayout>
