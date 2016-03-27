@@ -1,18 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.StockDetailActivity">
 
     <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_weight="2"
         android:contentDescription="@string/desc_line_chart"
         chart:chart_axisColor="@android:color/white"
         chart:chart_fontSize="15dp"
         chart:chart_labelColor="@android:color/holo_green_light" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/detail_symbol"
+                style="@style/StockSymbolTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/detail_text_padding"
+                android:text="@string/placeholder_goog" />
+
+            <TextView
+                android:id="@+id/detail_date"
+                style="@style/BidPriceTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/detail_text_padding"
+                android:text="@string/placeholder_date" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/detail_bid"
+                style="@style/BidPriceTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/detail_text_padding"
+                android:text="@string/placeholder_value" />
+
+            <TextView
+                android:id="@+id/detail_change"
+                style="@style/PercentChangeTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/percent_change_pill"
+                android:gravity="center"
+                android:padding="@dimen/detail_text_padding"
+                android:text="@string/placeholder_percentage" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

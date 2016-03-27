@@ -17,6 +17,7 @@
     <string name="placeholder_goog" translatable="false">GOOG</string>
     <string name="placeholder_value" translatable="false">1000.00</string>
     <string name="placeholder_percentage" translatable="false">100%</string>
+    <string name="placeholder_date">Current Data</string>
 
     <!--ContentDescription-->
     <string name="desc_no_internet_icon">No network connection icon</string>
