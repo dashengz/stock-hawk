@@ -21,7 +21,7 @@
 
     <!--ContentDescription-->
     <string name="desc_no_internet_icon">No network connection icon</string>
-    <string name="desc_line_chart">Line chart of the past two weeks</string>
+    <string name="desc_line_chart">Line chart of the past seven days</string>
 
     <!--Toasts-->
     <string name="network_msg">Please connect to the Internet to get the latest stock information!</string>
