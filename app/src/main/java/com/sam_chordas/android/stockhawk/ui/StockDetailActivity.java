@@ -1,17 +1,24 @@
 package com.sam_chordas.android.stockhawk.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.db.chart.listener.OnEntryClickListener;
+import com.db.chart.model.ChartEntry;
 import com.db.chart.model.LineSet;
+import com.db.chart.model.Point;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.sam_chordas.android.stockhawk.R;
@@ -22,6 +29,7 @@ import com.sam_chordas.android.stockhawk.rest.Utils;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.PriorityQueue;
 
@@ -71,11 +79,11 @@ public class StockDetailActivity extends AppCompatActivity {
             do dates.add(Utils.parseStringToDate(cursor.getString(COLUMN_CREATED)));
             while (cursor.moveToNext());
 
-        ArrayList<String> select = Utils.selectData(dates);
+        List<String> select = Utils.selectData(dates);
 
         // show max 7 days of entries
         if (select.size() > DAYS_SHOWN_IN_GRAPH)
-            select.subList(select.size() - DAYS_SHOWN_IN_GRAPH, select.size());
+            select = select.subList(select.size() - DAYS_SHOWN_IN_GRAPH, select.size());
 
         // create Quote objects for display
         final ArrayList<Quote> data = new ArrayList<>();
@@ -129,6 +137,21 @@ public class StockDetailActivity extends AppCompatActivity {
 
         // show chart
         chart.show();
+
+        // add contentDescription for the data points
+        ArrayList<Point> points = new ArrayList<>();
+        for (ChartEntry c : dataSet.getEntries()) points.add((Point) c);
+
+        FrameLayout frame = (FrameLayout) findViewById(R.id.frame);
+        for (int i = 0; i < points.size(); i++) {
+            int x = (int) points.get(i).getX();
+            int y = (int) points.get(i).getY();
+            Rect r = new Rect(x - 1, y + 1, x + 1, y - 1);
+            PointView v = new PointView(StockDetailActivity.this, r);
+            v.setContentDescription(data.get(i).toString());
+            v.setFocusable(true);
+            frame.addView(v);
+        }
 
         // set entry onclick
         chart.setOnEntryClickListener(new OnEntryClickListener() {
@@ -215,10 +238,6 @@ public class StockDetailActivity extends AppCompatActivity {
             return Float.parseFloat(price);
         }
 
-        public float getFloatPercent() {
-            return Float.parseFloat(percent);
-        }
-
         public float getFloatChange() {
             return Float.parseFloat(change);
         }
@@ -227,7 +246,38 @@ public class StockDetailActivity extends AppCompatActivity {
             return DateFormat.getDateInstance(length, Locale.getDefault())
                     .format(Utils.parseStringToDate(date));
         }
+
+        // for contentDescription
+        @Override
+        public String toString() {
+            return getResources().getString(R.string.point_date)
+                    + getDate(DateFormat.MEDIUM) + ", "
+                    + getResources().getString(R.string.point_price)
+                    + price + ", "
+                    + (isUp ? getResources().getString(R.string.point_up)
+                    : getResources().getString(R.string.point_down))
+                    + Math.abs(getFloatPrice())
+                    + getResources().getString(R.string.point_which_is)
+                    + getPercent().substring(1);
+        }
     }
 
+    private class PointView extends View {
+        Rect rect;
+        Paint paint;
+
+        public PointView(Context context, Rect r) {
+            super(context);
+            rect = r;
+            paint = new Paint();
+            paint.setColor(Color.TRANSPARENT);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            canvas.drawColor(Color.TRANSPARENT);
+            canvas.drawRect(rect, paint);
+        }
+    }
 
 }

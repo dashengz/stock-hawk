@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.StockDetailActivity">
 
-    <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/lineChart"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_weight="2"
-        android:contentDescription="@string/desc_line_chart"
-        chart:chart_axisColor="@android:color/white"
-        chart:chart_fontSize="15dp"
-        chart:chart_labelColor="@android:color/holo_green_light" />
+        android:layout_weight="2">
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:focusable="true" />
+
+        <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/desc_line_chart"
+            chart:chart_axisColor="@android:color/white"
+            chart:chart_fontSize="12dp"
+            chart:chart_labelColor="@android:color/holo_green_light" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
