@@ -10,10 +10,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.PriorityQueue;
+import java.util.TimeZone;
 
 /**
  * Created by sam_chordas on 10/8/15.
+ * Utility class
  */
 public class Utils {
 
@@ -96,5 +104,34 @@ public class Utils {
             e.printStackTrace();
         }
         return builder.build();
+    }
+
+    public static Date parseStringToDate(String created) {
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(created.replace("Z", "UTC"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static String convertDateToString(Date date) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format.format(date).replace("UTC", "Z");
+    }
+
+    public static ArrayList<String> selectData(PriorityQueue<Date> dates) {
+        ArrayList<String> selected = new ArrayList<>();
+        while (dates.size() != 0) {
+            Date date = dates.poll();
+            while (dates.size() != 0 && dates.peek().getDate() == (date.getDate()))
+                date = dates.poll();
+            selected.add(convertDateToString(date));
+        }
+        return selected;
     }
 }
