@@ -44,6 +44,9 @@
     <string name="value_init" translatable="false">init</string>
     <string name="value_add" translatable="false">add</string>
 
+    <!--Widget-->
+    <string name="empty_quote_list">No Quote Information Available</string>
+
     <!--IntentService-->
     <string name="service_url_encode" translatable="false">UTF-8</string>
     <string name="service_url_base" translatable="false">"https://query.yahooapis.com/v1/public/yql?q="</string>

@@ -59,7 +59,10 @@ public class StockDetailActivity extends AppCompatActivity {
         // query for all data of the symbol
         Cursor cursor = getContentResolver().query(
                 QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns.BIDPRICE, QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.CREATED, QuoteColumns.ISUP},
+                new String[]{
+                        QuoteColumns.BIDPRICE, QuoteColumns.PERCENT_CHANGE,
+                        QuoteColumns.CHANGE, QuoteColumns.CREATED, QuoteColumns.ISUP
+                },
                 QuoteColumns.SYMBOL + "= ?",
                 new String[]{symbol},
                 null
@@ -95,7 +98,7 @@ public class StockDetailActivity extends AppCompatActivity {
                         cursor.getString(COLUMN_PERCENT),
                         cursor.getString(COLUMN_CHANGE),
                         cursor.getString(COLUMN_CREATED),
-                        cursor.getString(COLUMN_ISUP))
+                        cursor.getInt(COLUMN_ISUP))
                 );
             while (cursor.moveToNext());
 
@@ -120,7 +123,7 @@ public class StockDetailActivity extends AppCompatActivity {
         // customize chart
         LineChartView chart = (LineChartView) findViewById(R.id.lineChart);
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(android.R.color.white));
+        paint.setColor(Color.WHITE);
         chart.setGrid(ChartView.GridType.FULL, paint);
         chart.setStep(
                 ((int) maxPrice / 10) / 10 * 10 == 0
@@ -130,9 +133,9 @@ public class StockDetailActivity extends AppCompatActivity {
 
         // customize line
         LineSet dataSet = new LineSet(labels, floats);
-        dataSet.setDotsColor(getResources().getColor(android.R.color.holo_red_dark));
+        dataSet.setDotsColor(Color.RED);
         dataSet.setDotsRadius(10);
-        dataSet.setColor(getResources().getColor(android.R.color.holo_green_light));
+        dataSet.setColor(Color.GREEN);
         chart.addData(dataSet);
 
         // show chart
@@ -210,12 +213,12 @@ public class StockDetailActivity extends AppCompatActivity {
         String date;
         boolean isUp;
 
-        public Quote(String price, String percent, String change, String date, String isUp) {
+        public Quote(String price, String percent, String change, String date, int isUp) {
             this.price = price;
             this.percent = percent;
             this.change = change;
             this.date = date;
-            this.isUp = isUp.equals("1");
+            this.isUp = isUp == 1;
         }
 
         public String getPrice() {

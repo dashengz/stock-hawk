@@ -2,6 +2,7 @@ package com.sam_chordas.android.stockhawk.service;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -29,8 +30,8 @@ import java.net.URLEncoder;
  * and is used for the initialization and adding task as well.
  */
 public class StockTaskService extends GcmTaskService {
+    public static String ACTION_UPDATE = "com.sam_chordas.android.stockhawk.ACTION_UPDATE";
     private String LOG_TAG = StockTaskService.class.getSimpleName();
-
     private OkHttpClient client = new OkHttpClient();
     private Context mContext;
     private StringBuilder mStoredSymbols = new StringBuilder();
@@ -132,6 +133,7 @@ public class StockTaskService extends GcmTaskService {
                         }
                         mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
                                 Utils.quoteJsonToContentVals(getResponse));
+                        updateWidgets();
                         result = GcmNetworkManager.RESULT_SUCCESS;
                     }
                 } catch (RemoteException | OperationApplicationException e) {
@@ -143,6 +145,11 @@ public class StockTaskService extends GcmTaskService {
         }
 
         return result;
+    }
+
+    private void updateWidgets() {
+        Intent update = new Intent(ACTION_UPDATE).setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(update);
     }
 
 }
