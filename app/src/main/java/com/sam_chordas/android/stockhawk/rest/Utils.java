@@ -119,7 +119,7 @@ public class Utils {
     }
 
     public static String convertDateToString(Date date) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.ENGLISH);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         return format.format(date).replace("UTC", "Z");
     }

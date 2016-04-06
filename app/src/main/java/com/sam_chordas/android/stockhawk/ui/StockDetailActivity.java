@@ -259,7 +259,7 @@ public class StockDetailActivity extends AppCompatActivity {
                     + price + ", "
                     + (isUp ? getResources().getString(R.string.point_up)
                     : getResources().getString(R.string.point_down))
-                    + Math.abs(getFloatPrice())
+                    + price.substring(1)
                     + getResources().getString(R.string.point_which_is)
                     + getPercent().substring(1);
         }
